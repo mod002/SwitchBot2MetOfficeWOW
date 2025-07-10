@@ -20,7 +20,7 @@ dev = [
 ]
 
 [project.scripts]
-main = "main:main"
+upload = "upload:main"
 
 [tool.ruff]
 line-length = 120

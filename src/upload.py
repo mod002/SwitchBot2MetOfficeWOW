@@ -55,7 +55,11 @@ def upload_to_wow(payload):
 
 
 # === Main Routine ===
-if __name__ == "__main__":
+def run_main() -> int:
     temp, humid, dewpt = get_switchbot_data()
     wow_payload = format_wow_payload(temp, humid, dewpt)
     upload_to_wow(wow_payload)
+
+
+def main():
+    raise SystemExit(run_main())

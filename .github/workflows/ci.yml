@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      # NOTE: cannot use ${{ github.event.repository.default_branch }} in trigger def:
+      #   stackoverflow.com/a/68414395
+      - master
+      - main
+    tags: ['*']
+  pull_request:
+
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Instantiate project
+        run: uv sync --dev
+
+      - name: Install Just
+        uses: extractions/setup-just@v1  # or taiki-e/install-action@just
+
+      - name: Ruff (linting and formatting, using pre commit)
+        run: just fmt
+
+  audit:
+    name: Supply Chain Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Install Just
+        uses: extractions/setup-just@v1  # or taiki-e/install-action@just
+
+      - name: Audit dependencies
+        run: just audit
+
+  sniff:
+    name: Truffle Hog (Secret Sniffer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown

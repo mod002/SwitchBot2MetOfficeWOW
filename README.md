@@ -9,7 +9,7 @@ Ensure you have [UV](https://github.com/astral-sh/uv) installed.  This is a tool
 ### Run the CLI
 
 ```commandline
-$ uv run main
+$ uv run upload
 ```
 
 ### Run CI/CD Components
