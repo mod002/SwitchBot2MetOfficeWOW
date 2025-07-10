@@ -1,0 +1,43 @@
+[project]
+name = "switchbot-2-metoffice-wow"
+version = "1.0.0"
+description = "Data connector from SwitchBot to MetOffice WOW"
+authors = [{ name = "Elliot Challenger", email = "elliotchallenger1@gmail.com" }]
+requires-python = ">= 3.11, <4"
+dependencies = [
+    "python-dotenv==1.1.1",
+    "requests==2.32.4",
+]
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "pip-audit>=2.9.0",
+    "pre-commit>=4.2.0",
+    "ruff>=0.11.13",
+]
+
+[project.scripts]
+main = "main:main"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",    # isort
+]
+ignore = [
+    # "B008",  # docs.astral.sh/ruff/rules/function-call-in-default-argument/
+]
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports
